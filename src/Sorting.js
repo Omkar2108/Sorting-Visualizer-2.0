@@ -5,8 +5,8 @@ function Sorting() {
 
     const [array, setArray] = useState([]);
     const [size, setSize]= useState(30);
-    const [speed, setSpeed] =  useState(30);
-
+    const [speed, setSpeed] =  useState(100);
+    const [stop, setStop] = useState(false);
 
     const randomArray = (size)=>{
         // console.log("size",size);
@@ -17,36 +17,125 @@ function Sorting() {
         setArray(array);
     }
 
+
     const bubbleSort=()=>{
-        const newArray=array.slice();
-        console.log(newArray);
-        for(let i=0;i<newArray.length;i++){
-            for(let j=0;j<newArray.length-1;j++){
+       let count=0;
+       const newArray = array.slice();
+       for(let i=0;i<newArray.length;i++){
+           for(let j=0;j<newArray.length-i-1;j++){
+                if(newArray[j]>newArray[j+1]){
+                    let temp = newArray[j];
+                    newArray[j]=newArray[j+1];
+                    newArray[j+1]=temp;
+                }
                 const j1=document.getElementById(j.toString());
                 const j2 = document.getElementById((j+1).toString());
+                const arr = newArray.slice();
                 setTimeout(()=>{
                     j1.style.backgroundColor="red";
                     j2.style.backgroundColor="red";
-
-                }, j*speed);
-                if(newArray[j]>newArray[j+1]){
-                    const t=newArray[j];
-                    newArray[j]=newArray[j+1];
-                    newArray[j+1]=t;
+                    setArray(arr);
+                }, count++ * speed);
+                setTimeout(()=>{
+                    j1.style.backgroundColor="#553c9a";
+                    j2.style.backgroundColor="#553c9a";
+                }, count++ * speed );
+           }
+        }
+    }
+       
+    const selectionSort =()=>{
+        const newArray = array.slice();
+        let count=0;
+        for(let i=0;i<newArray.length;i++){
+            let min = i;
+            for(let j=i+1;j<newArray.length;j++){
+                if(newArray[min] > newArray[j]){
+                    min = j;
                 }
-               setTimeout(()=>{
-                j1.style.height=newArray[j+1];
-                j2.style.height=newArray[j];
-                j1.style.backgroundColor=" rgba(91, 33, 182)";
-                j2.style.backgroundColor=" rgba(91, 33, 182)";
-               }, j*speed);                
+                const j1=document.getElementById(j.toString());
+                const j2 = document.getElementById(min.toString());
+                setTimeout(()=>{
+                    j1.style.backgroundColor="red";
+                    j2.style.backgroundColor="red";
+                }, count++ * speed);
+                setTimeout(()=>{
+                    j1.style.backgroundColor="#553c9a";
+                    j2.style.backgroundColor="#553c9a";
+                }, count++ * speed );
+            }
+            if(min !== i){
+                const temp = newArray[min];
+                newArray[min] = newArray[i];
+                newArray[i] = temp;
+                const j1=document.getElementById(i.toString());
+                const j2 = document.getElementById(min.toString());
+                const arr = newArray.slice();
+                setTimeout(()=>{
+                    j1.style.backgroundColor="red";
+                    j2.style.backgroundColor="red";
+                    setArray(arr);
+                }, count++ * speed);
+                setTimeout(()=>{
+                    j1.style.backgroundColor="#553c9a";
+                    j2.style.backgroundColor="#553c9a";
+                }, count++ * speed );
             }
         }
-        // newArray.sort((a, b)=> a-b)
-        setTimeout(()=>{
-            console.log(newArray);
-        }, 2000);
-        setArray(newArray);
+        console.log(newArray);
+    }
+
+    const insertionSort = ()=>{
+        const newArray = array.slice();
+        let count=0;
+        for(let i=1;i<newArray.length;i++){
+            let key = newArray[i], j=i-1;
+            while(j >=0 && newArray[j] > key){
+                newArray[j+1] = newArray[j];
+                const j1=document.getElementById(i.toString());
+                const j2 = document.getElementById(j.toString());
+                const arr = newArray.slice();
+                setTimeout(()=>{
+                    j1.style.backgroundColor="red";
+                    j2.style.backgroundColor="red";
+                    setArray(arr);
+                }, count++ * speed);
+                setTimeout(()=>{
+                    j1.style.backgroundColor="#553c9a";
+                    j2.style.backgroundColor="#553c9a";
+                }, count++ * speed );
+                j--;
+            }
+            newArray[j+1] = key;
+        }
+    }
+
+    const mergeSort = (array) =>{
+        let left=[], right=[];
+        const n = array.length, mid =parseInt(n/2);
+        if(n >1) {
+            for(let i=0;i<n;i++){
+                if(i<mid){
+                    left[i]=array[i];
+                }else{
+                    right[i-mid]=array[i];
+                }
+            }
+            mergeSort(left);
+            mergeSort(right);
+            let i=0,j=0,k=0;
+            while(i<mid && j < n-mid ){
+                array[k++] = left[i] < right[j] ? left[i++] : right[j++];
+            }
+            while(i<mid){
+                array[k++] = left[i++];
+            }
+            while(j<n-mid){
+                array[k++] = right[j++];
+            }
+            console.log(array);
+            setArray(array);
+        }
     }
 
     const handleArraySize = (e)=>{
@@ -77,16 +166,17 @@ function Sorting() {
                  onClick={()=>randomArray(size)}>New Array</button>
                 <button className="bg-blue-200 text-black hover:bg-red-200 text-center px-4 py-2 m-6 rounded border-red-400"
                 onClick={()=>bubbleSort()}>Bubble Sort</button>
-                <button className="bg-blue-200 text-black hover:bg-red-200 text-center px-4 py-2 m-6 rounded">Merge Sort</button>
+                <button className="bg-blue-200 text-black hover:bg-red-200 text-center px-4 py-2 m-6 rounded" onClick={()=>mergeSort(array)}>Merge Sort</button>
                 <button className="bg-blue-200 text-black hover:bg-red-200 text-center px-4 py-2 m-6 rounded">Quick Sort</button>
                 <button className="bg-blue-200 text-black hover:bg-red-200 text-center px-4 py-2 m-6 rounded">Heap Sort</button>
-                <button className="bg-blue-200 text-black hover:bg-red-200 text-center px-4 py-2 m-6 rounded">Insertion Sort</button>
-                <button className="bg-blue-200 text-black hover:bg-red-500 text-center px-4 py-2 m-6 rounded">Stop</button>
+                <button className="bg-blue-200 text-black hover:bg-red-200 text-center px-4 py-2 m-6 rounded" onClick={()=> insertionSort()}>Insertion Sort</button>
+                <button className="bg-blue-200 text-black hover:bg-red-200 text-center px-4 py-2 m-6 rounded" onClick={()=>selectionSort()}>Selection Sort</button>
+                <button className="bg-blue-200 text-black hover:bg-red-500 text-center px-4 py-2 m-6 rounded" onClick={()=>setStop(true)}>Stop</button>
             </div>  
 
             </div>
             
-            <Element array={array} />
+            <Element array={array} stop={stop}/>
 
         </div>
     )

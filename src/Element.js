@@ -14,8 +14,8 @@ function Element({array}) {
                         <p className="text-black text-xs text-center" >{ele}</p>
                     </div>
                 )
-                })}
-            </div>
+            })}
+        </div>
     )
 }
 
