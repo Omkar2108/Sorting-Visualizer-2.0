@@ -1,5 +1,4 @@
-import './App.css';
-import Sorting from './Sorting';
+import Sorting from "./Sorting";
 
 function App() {
   return (
