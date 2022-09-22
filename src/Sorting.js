@@ -3,7 +3,7 @@ import Element from "./Element";
 import BubbleSort from "./algorithms/bubbleSort";
 import SelectionSort from "./algorithms/selectionSort";
 import InsertionSort from "./algorithms/insertionSort";
-import MergeSort from "./algorithms/mergeSort";
+// import MergeSort from "./algorithms/mergeSort";
 
 const DEFAULT_COLOUR = "#553c9a";
 const RED = "red";
@@ -87,7 +87,7 @@ function Sorting() {
 
   const mergeSort = () =>{
     setButton(true);
-    const ans = MergeSort(array);
+    // const ans = MergeSort(array);
     let count =0;
     // for(let value of ans){
     //   const {i, j, arr} = value;
